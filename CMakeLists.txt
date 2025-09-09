@@ -12,10 +12,10 @@ find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 # Add executable for OpenCV test
-add_executable(test_opencv test_opencv.cpp)
+add_executable(hello_world hello_world.cpp)
 
 # Link OpenCV libraries
-target_link_libraries(test_opencv ${OpenCV_LIBS})
+target_link_libraries(hello_world ${OpenCV_LIBS})
 
 # Add executable for face detection (will be created later)
 # add_executable(face_detection face_detection.cpp)
