@@ -33,9 +33,6 @@ int main() {
         // CV_8UC3 means: 8-bit unsigned integer, 3 channels (Blue, Green, Red)
         Mat test_image = Mat::zeros(1000, 1000, CV_8UC3);
 
-        // Output a success message indicating that the test image is workingResearch Scientist, Pathfinding Architecture Development - Goleta
-        cout << "✓ Test image created" << endl;
-
         // show the test image
         show_image(test_image, "Test Image");
         
@@ -54,9 +51,6 @@ int main() {
 
         show_image(test_image, "Test Image");
         
-        // Output a success message indicating that matrix operations are working
-        cout << "✓ OpenCV matrix operations working" << endl;
-        
         // Display the dimensions of the created test image
         // test_image.rows gives the height, test_image.cols gives the width
         cout << "✓ Test image created: " << test_image.rows << "x" << test_image.cols << " pixels" << endl;
@@ -71,9 +65,6 @@ int main() {
         show_image(gray_image, "Gray Image");
 
         
-        // Output a success message indicating that color conversion is working
-        cout << "✓ Color conversion working" << endl;
-        
         // Declare a new Mat object to store the blurred version of the image
         Mat blurred;
         
@@ -82,13 +73,6 @@ int main() {
         GaussianBlur(test_image, blurred, Size(25, 25), 0);
 
         show_image(blurred, "Blurred Image");
-
-        
-        // Output a success message indicating that Gaussian blur is working
-        cout << "✓ Gaussian blur working" << endl;
-        
-        // Output a final success message with an emoji to indicate OpenCV is working properly
-        cout << "\n🎉 OpenCV is properly installed and working!" << endl;
         
     // Catch block for OpenCV-specific exceptions
     // Exception is the base class for all OpenCV exceptions
