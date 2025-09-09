@@ -65,7 +65,7 @@ int main() {
         // Parameters: source image, destination image, conversion code (BGR to GRAY)
         cv::cvtColor(test_image, gray_image, cv::COLOR_BGR2GRAY);
 
-        show_image(test_image, "Test Image");
+        show_image(gray_image, "Gray Image");
 
         
         // Output a success message indicating that color conversion is working
@@ -76,9 +76,9 @@ int main() {
         
         // Apply Gaussian blur filter to the test image
         // Parameters: source image, destination image, kernel size (5x5), sigma X=0 (auto-calculated)
-        cv::GaussianBlur(test_image, blurred, cv::Size(5, 5), 0);
+        cv::GaussianBlur(test_image, blurred, cv::Size(25, 25), 0);
 
-        show_image(test_image, "Test Image");
+        show_image(blurred, "Blurred Image");
 
         
         // Output a success message indicating that Gaussian blur is working
