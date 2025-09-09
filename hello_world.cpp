@@ -7,8 +7,10 @@
 // Include the main OpenCV header that provides access to all OpenCV modules
 #include <opencv2/opencv.hpp>
 
+using namespace std;
+
 // method to show the image
-void show_image(cv::Mat image, std::string window_name) {
+void show_image(cv::Mat image, string window_name) {
     cv::imshow(window_name, image);
     cv::waitKey(0);
 }
@@ -18,10 +20,10 @@ void show_image(cv::Mat image, std::string window_name) {
 // Main function - the entry point of the C++ program, returns an integer
 int main() {
     // Output a header message to the console using the stream insertion operator
-    std::cout << "=== OpenCV Installation Verification ===" << std::endl;
+    cout << "=== OpenCV Installation Verification ===" << endl;
     
     // Display the OpenCV version by accessing the CV_VERSION macro defined in OpenCV headers
-    std::cout << "OpenCV Version: " << CV_VERSION << std::endl;
+    cout << "OpenCV Version: " << CV_VERSION << endl;
     
     // Begin a try-catch block to handle any exceptions that might occur during OpenCV operations
     try {
@@ -30,8 +32,8 @@ int main() {
         // CV_8UC3 means: 8-bit unsigned integer, 3 channels (Blue, Green, Red)
         cv::Mat test_image = cv::Mat::zeros(1000, 1000, CV_8UC3);
 
-        // Output a success message indicating that the test image is working
-        std::cout << "✓ Test image created" << std::endl;
+        // Output a success message indicating that the test image is workingResearch Scientist, Pathfinding Architecture Development - Goleta
+        cout << "✓ Test image created" << endl;
 
         // show the test image
         show_image(test_image, "Test Image");
@@ -52,11 +54,11 @@ int main() {
         show_image(test_image, "Test Image");
         
         // Output a success message indicating that matrix operations are working
-        std::cout << "✓ OpenCV matrix operations working" << std::endl;
+        cout << "✓ OpenCV matrix operations working" << endl;
         
         // Display the dimensions of the created test image
         // test_image.rows gives the height, test_image.cols gives the width
-        std::cout << "✓ Test image created: " << test_image.rows << "x" << test_image.cols << " pixels" << std::endl;
+        cout << "✓ Test image created: " << test_image.rows << "x" << test_image.cols << " pixels" << endl;
         
         // Declare a new Mat object to store the grayscale version of the image
         cv::Mat gray_image;
@@ -69,7 +71,7 @@ int main() {
 
         
         // Output a success message indicating that color conversion is working
-        std::cout << "✓ Color conversion working" << std::endl;
+        cout << "✓ Color conversion working" << endl;
         
         // Declare a new Mat object to store the blurred version of the image
         cv::Mat blurred;
@@ -82,26 +84,26 @@ int main() {
 
         
         // Output a success message indicating that Gaussian blur is working
-        std::cout << "✓ Gaussian blur working" << std::endl;
+        cout << "✓ Gaussian blur working" << endl;
         
         // Output a final success message with an emoji to indicate OpenCV is working properly
-        std::cout << "\n🎉 OpenCV is properly installed and working!" << std::endl;
+        cout << "\n🎉 OpenCV is properly installed and working!" << endl;
         
     // Catch block for OpenCV-specific exceptions
     // cv::Exception is the base class for all OpenCV exceptions
     } catch (const cv::Exception& e) {
         // Output error message to standard error stream (stderr) instead of stdout
         // e.what() returns a C-string describing the error
-        std::cerr << "❌ OpenCV Error: " << e.what() << std::endl;
+        cerr << "❌ OpenCV Error: " << e.what() << endl;
         
         // Return error code 1 to indicate program failure
         return 1;
         
     // Catch block for general C++ exceptions (fallback for non-OpenCV errors)
-    // std::exception is the base class for all standard C++ exceptions
-    } catch (const std::exception& e) {
+    // exception is the base class for all standard C++ exceptions
+    } catch (const exception& e) {
         // Output error message to standard error stream
-        std::cerr << "❌ General Error: " << e.what() << std::endl;
+        cerr << "❌ General Error: " << e.what() << endl;
         
         // Return error code 1 to indicate program failure
         return 1;
