@@ -20,12 +20,6 @@ void show_image(Mat image, string window_name) {
 
 // Main function - the entry point of the C++ program, returns an integer
 int main() {
-    // Output a header message to the console using the stream insertion operator
-    cout << "=== OpenCV Installation Verification ===" << endl;
-    
-    // Display the OpenCV version by accessing the CV_VERSION macro defined in OpenCV headers
-    cout << "OpenCV Version: " << CV_VERSION << endl;
-    
     // Begin a try-catch block to handle any exceptions that might occur during OpenCV operations
     try {
         // Create a 100x100 pixel image matrix with 3 channels (BGR color) and 8-bit unsigned integer data type
