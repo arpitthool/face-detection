@@ -31,7 +31,7 @@ int main() {
         show_image(test_image, "Test Image");
         
         // Draw a green rectangle on the test image
-        // Parameters: image, top-left corner (20,20), bottom-right corner (80,80), 
+        // Parameters: image, top-left corner (200,200), bottom-right corner (800,800), 
         // color (BGR format: 0=Blue, 255=Green, 0=Red), thickness=2 pixels
         rectangle(test_image, Point(200, 200), Point(800, 800), Scalar(0, 255, 0), 2);
 
@@ -57,13 +57,12 @@ int main() {
         cvtColor(test_image, gray_image, COLOR_BGR2GRAY);
 
         show_image(gray_image, "Gray Image");
-
         
         // Declare a new Mat object to store the blurred version of the image
         Mat blurred;
         
         // Apply Gaussian blur filter to the test image
-        // Parameters: source image, destination image, kernel size (5x5), sigma X=0 (auto-calculated)
+        // Parameters: source image, destination image, kernel size (25x25), sigma X=0 (auto-calculated)
         GaussianBlur(test_image, blurred, Size(25, 25), 0);
 
         show_image(blurred, "Blurred Image");
