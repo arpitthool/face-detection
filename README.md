@@ -2,7 +2,7 @@
 
 # Face Detection C++ App
 
-A C++ application for detecting single or multiple faces in images using OpenCV
+A C++ application for detecting single or multiple faces (via webcam) using OpenCV.
 
 ## Requirements
 
@@ -25,14 +25,3 @@ make
 cd build
 ./face_detection
 ```
-
-## Features
-
-- Detect single or multiple faces in images
-- Real-time face detection from webcam
-
-## Project Structure
-
-- `hello_world.cpp` - OpenCV verification program
-- `CMakeLists.txt` - CMake build configuration
-- `README.md` - This file
