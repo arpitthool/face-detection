@@ -1,6 +1,6 @@
 # Face Detection C++ App
 
-A C++ application for detecting faces in images using OpenCV. Currently includes an OpenCV installation verification program.
+A C++ application for detecting single or multiple faces in images using OpenCV
 
 ## Requirements
 
@@ -21,22 +21,13 @@ make
 
 ```bash
 cd build
-./hello_world
+./face_detection
 ```
 
-## What it does
-
-The `hello_world` program verifies OpenCV installation by:
-- Creating test images with geometric shapes
-- Testing color conversion (BGR to grayscale)
-- Applying Gaussian blur filters
-- Displaying results in separate windows
-
-## Planned Features
+## Features
 
 - Detect single or multiple faces in images
 - Real-time face detection from webcam
-- Support for common image formats (jpg, png, etc.)
 
 ## Project Structure
 
