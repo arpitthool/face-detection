@@ -28,7 +28,7 @@ int main() {
 
     // load the face cascade classifier. The xml file is a pre-trained model that is used to detect faces. 
     // It contains a list of features that are used to detect faces.
-    face_cascade.load("./haarcascade_frontalface_default.xml");
+    face_cascade.load("../haarcascade_frontalface_default.xml");
 
     // we initialize a vector of Rects to store the faces
     vector<Rect> faces;
@@ -48,14 +48,17 @@ int main() {
         }
 
         // draw the rectangle at the top left corner of the image
-        rectangle(image, Point(10, 0), Point(300, 60), Scalar(255, 0, 0), FILLED);
+        rectangle(image, Point(10, 0), Point(300, 80), Scalar(200, 50, 50), FILLED);
 
         // show the number of faces detected on the image
         string faces_detected =  to_string(faces.size()) + ( faces.size() == 1 ? " face detected" : " faces detected");
-        putText(image, faces_detected , Point(15, 30), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 255, 0), 2);
+        putText(image, faces_detected , Point(10, 30), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 255, 0), 2);
+
+        // press ESC or 'q' to quit
+        putText(image, "(Press ESC or Q to quit)", Point(10, 60), FONT_HERSHEY_SIMPLEX , 0.7, Scalar(0, 255, 0), 2);
 
         // show the image
-        imshow("Frame", image);
+        imshow("Face Detection", image);
 
         
         // wait for 20ms and check if a key is pressed
