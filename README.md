@@ -1,3 +1,5 @@
+[Screencast from 09-09-2025 08:15:35 PM.webm](https://github.com/user-attachments/assets/bb47695a-16f9-4a7c-89b1-fd45869ccc6b)
+
 # Face Detection C++ App
 
 A C++ application for detecting faces in images using OpenCV. Currently includes an OpenCV installation verification program.
