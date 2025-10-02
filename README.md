@@ -23,5 +23,5 @@ make
 
 ```bash
 cd build
-./face_detection
+./main
 ```
