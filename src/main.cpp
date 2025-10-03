@@ -26,7 +26,7 @@ void showMenu(int noOfFaces, string windowName) {
     int menuItemsSize = menuItems.size();
 
     for (int i = 0; i < menuItemsSize; i++) {
-        putText(menuImage, menuItems[i], Point(10, 30 + i * 30), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
+        putText(menuImage, menuItems[i], Point(10, 30 + i * 30), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 1);
     }
     imshow(windowName, menuImage);
 }
