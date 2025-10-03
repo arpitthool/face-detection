@@ -2,7 +2,7 @@
 
 # Face Detection C++ App
 
-A C++ application for detecting single or multiple faces (via webcam) using OpenCV.
+A C++ application for detecting single or multiple faces (via webcam) using OpenCV. With the added functionality of wearing hats!
 
 ## Requirements
 
