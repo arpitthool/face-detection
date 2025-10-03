@@ -7,6 +7,21 @@
 using namespace std;
 using namespace cv;
 
+void showMenu(int faces_size, string menu_window_name) {
+    // show the menu
+    // we use Mat::zeros to create a black image, with height and width as input
+    // CV_8UC3 means 3 channels (RGB) and 8 bits per channel
+    // we use CV_8UC3 because we want to display the text in color
+    string faces_detected =  to_string(faces_size) + ( faces_size == 1 ? " face detected" : " faces detected");
+    Mat menu_image = Mat::zeros(300, 300, CV_8UC3);
+    putText(menu_image, faces_detected, Point(10, 30), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
+    putText(menu_image, "Menu", Point(10, 60), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
+    putText(menu_image, "Press H to show/hide hat", Point(10, 90), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
+    putText(menu_image, "Press R to show/hide rectangles around faces", Point(10, 120), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
+    putText(menu_image, "Press ESC or Q to quit", Point(10, 150), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
+    imshow(menu_window_name, menu_image);
+}
+
 int main() {
     // VideoCapture is a class that captures video from a camera
     VideoCapture video(0);
@@ -40,7 +55,15 @@ int main() {
     // imread() reads an image file and stores it in memory, IMREAD_UNCHANGED means keep the image exactly as it is (including transparency if it's a PNG)
     Mat overlay_image_original = imread(overlay_image_path, IMREAD_UNCHANGED);
 
-    bool show_overlay = false;
+    bool show_overlay = false, show_rectangles = false;
+
+    // create a window to show the overlay image
+    string window_name = "Face Detection Window";
+    namedWindow(window_name, WINDOW_NORMAL);
+
+    // create a window to show the menu
+    string menu_window_name = "Face Detection Menu Window";
+    namedWindow(menu_window_name, WINDOW_NORMAL); 
 
     while (true) {
         // read the image from the video
@@ -53,7 +76,9 @@ int main() {
 
         // draw the rectangle around the faces in the image
         for (Rect face : faces) {
-            rectangle(image, face.tl(), face.br(), Scalar(0, 255, 0), 2);
+            if (show_rectangles) {
+                rectangle(image, face.tl(), face.br(), Scalar(0, 255, 0), 2);
+            }
 
             if (show_overlay) {
                 // overlayBGR will hold the overlay image without transparency (just colors)
@@ -64,7 +89,6 @@ int main() {
                 // Resize the overlay image to match the face size
                 int overlayWidth = face.width;
                 int overlayHeight = face.height;
-                
                 // here INTER_AREA is the method used to resize to get the best quality
                 resize(overlay_image_original, overlay_image_resized, Size(overlayWidth, overlayHeight), 0, 0, INTER_AREA);
 
@@ -77,7 +101,6 @@ int main() {
                     // COLOR_BGRA2BGR removes the transparency channel, keeping only Blue, Green, Red
                     cvtColor(overlay_image_resized, overlayBGR, COLOR_BGRA2BGR);
                     
-                    // Split the image into separate channels
                     // split() separates the image into individual color channels
                     // channels[0] = Blue, channels[1] = Green, channels[2] = Red, channels[3] = Alpha (transparency)
                     vector<Mat> channels;
@@ -99,60 +122,38 @@ int main() {
                 int x = face.tl().x;                    //  x position = face's left edge
                 int y = face.tl().y - (overlayHeight);  //  y position = above the face (face top minus overlay height)
 
-                // Make sure the overlay fits within the camera frame
                 // We need to check if the overlay would go outside the camera view
-                // min() chooses the smaller of two numbers
-                int w = min(overlayBGR.cols, image.cols - x); // overlay width = smaller of (overlay width, remaining space to right)
-                int h = min(overlayBGR.rows, image.rows - y); // overlay height = smaller of (overlay height, remaining space below)
-
-                // Only place the overlay if it fits completely within the frame
-                // w > 0 and h > 0 means the overlay has some size and fits in the frame
-                if (w > 0 && h > 0) { // TODO: debug why this is not working
+                if (x >= 0 &&  overlayWidth >= 0 && x + overlayWidth <= image.cols && y >= 0 && overlayHeight >= 0 && y + overlayHeight <= image.rows) { // TODO: debug why this is not working
                     
                     // Create a region of interest (ROI) on the camera image
-                    // Rect(x, y, w, h) defines a rectangle: x,y position and w,h size
                     // This is the area on the camera image where we'll place the overlay
-                    Mat roi = image(Rect(x, y, w, h));
+                    Mat region = image(Rect(x, y, overlayWidth, overlayHeight));
                     
-                    // Create a region of interest on the overlay image
-                    // This is the part of the overlay image that will be placed on the camera image
-                    Mat overlayROI = overlayBGR(Rect(0, 0, w, h));
-                    
-                    // Create a region of interest on the transparency mask
-                    // This is the transparency information for the part of the overlay we're placing
-                    Mat maskROI = mask(Rect(0, 0, w, h));
-
                     // Place the overlay on the camera image using the transparency mask
                     // copyTo() copies the overlay image to the camera image
                     // The mask tells it which parts of the overlay are transparent (don't copy those parts)
-                    overlayROI.copyTo(roi, maskROI);
+                    overlayBGR.copyTo(region, mask);
                 }
             }
         }
 
-        // draw the rectangle at the top left corner of the image
-        rectangle(image, Point(10, 0), Point(300, 80), Scalar(200, 50, 50), FILLED);
-
-        // show the number of faces detected on the image
-        string faces_detected =  to_string(faces.size()) + ( faces.size() == 1 ? " face detected" : " faces detected");
-        putText(image, faces_detected , Point(10, 30), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 255, 0), 2);
-
-        // press ESC or 'q' to quit
-        putText(image, "(Press ESC or Q to quit) (Press O to show/hide hat)", Point(10, 60), FONT_HERSHEY_SIMPLEX , 0.7, Scalar(0, 255, 0), 2);
+        // show the number of faces detected on the image along with the menu
+        showMenu(faces.size(), menu_window_name);
 
         // show the image
-        imshow("Face Detection", image);
+        imshow(window_name, image);
 
-        
         // wait for 20ms and check if a key is pressed
         char key = waitKey(40);
         
         // Exit if 'q' is pressed or window is closed
-        if (key == 'q' || key == 27) { // 27 is ESC key
+        if (key == 'q' || key == 'Q' || key == 27) { // 27 is ESC key
             cout << "Exiting..." << endl;
             break;
-        } else if (key == 'o') {
+        } else if (key == 'h' || key == 'H') { // 'h' for hat
             show_overlay = !show_overlay;
+        } else if (key == 'r' || key == 'R') { // 'r' for rectangles
+            show_rectangles = !show_rectangles;
         }
     }
 
