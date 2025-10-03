@@ -1,4 +1,4 @@
-[Screencast from 09-09-2025 08:15:35 PM.webm](https://github.com/user-attachments/assets/bb47695a-16f9-4a7c-89b1-fd45869ccc6b)
+[face-detection-with-hats.webm](https://github.com/user-attachments/assets/c0081ed3-5c5f-4401-8252-505ab7c68b0f)
 
 # Face Detection C++ App
 
