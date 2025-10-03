@@ -14,11 +14,20 @@ void showMenu(int noOfFaces, string windowName) {
     // we use CV_8UC3 because we want to display the text in color
     string facesDetected =  to_string(noOfFaces) + ( noOfFaces == 1 ? " face detected" : " faces detected");
     Mat menuImage = Mat::zeros(300, 300, CV_8UC3);
-    putText(menuImage, facesDetected, Point(10, 30), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
-    putText(menuImage, "Menu", Point(10, 60), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
-    putText(menuImage, "Press H to show/hide hat", Point(10, 90), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
-    putText(menuImage, "Press R to show/hide rectangles around faces", Point(10, 120), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
-    putText(menuImage, "Press ESC or Q to quit", Point(10, 150), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
+    vector<string> menuItems = {
+        facesDetected,
+        "*** Menu ***",
+        "Press H to show/hide hat",
+        "Press R to show/hide rectangles around faces",
+        "Press C to change hat",
+        "Press ESC or Q to quit"
+    };  
+
+    int menuItemsSize = menuItems.size();
+
+    for (int i = 0; i < menuItemsSize; i++) {
+        putText(menuImage, menuItems[i], Point(10, 30 + i * 30), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 255, 0), 2);
+    }
     imshow(windowName, menuImage);
 }
 
@@ -55,6 +64,7 @@ int main() {
 
     // Define the path to the overlay image file
     string overlayImagePath = "../images/hats/1.png";
+    int currentHatIndex = 1, maxHatIndex = 3;
     
     // Load the overlay image from the file
     // imread() reads an image file and stores it in memory, IMREAD_UNCHANGED means keep the image exactly as it is (including transparency if it's a PNG)
@@ -164,6 +174,17 @@ int main() {
             showOverlay = !showOverlay;
         } else if (key == 'r' || key == 'R') { // 'r' for rectangles
             showRectangles = !showRectangles;
+        } else if (key == 'c' || key == 'C') { // 'c' for change hat
+            // TODO: change hat
+            cout << "Changing hat..." << endl;
+            currentHatIndex = (currentHatIndex % maxHatIndex) + 1;
+            overlayImagePath = "../images/hats/" + to_string(currentHatIndex) + ".png";
+
+            overlayImageOriginal = imread(overlayImagePath, IMREAD_UNCHANGED);
+            if (overlayImageOriginal.empty()) {
+                cout << "Error: Could not load overlay image" << endl;
+                return -1;
+            }
         }
     }
 
